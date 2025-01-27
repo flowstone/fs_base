@@ -2,7 +2,7 @@ import configparser
 import os
 from loguru import logger
 from fs_base.common_util import CommonUtil
-from fs_base.const.fs_constants import FsConstants
+from fs_base.const.app_constants import AppConstants
 
 
 class AppIniUtil:
@@ -38,8 +38,8 @@ class AppIniUtil:
         初始化默认配置文件。
         """
         config = configparser.ConfigParser()
-        config[FsConstants.SETTINGS_SECTION] = {
-            key: str(value) for key, value in FsConstants.DEFAULT_CONFIG.items()
+        config[AppConstants.SETTINGS_SECTION] = {
+            key: str(value) for key, value in AppConstants.DEFAULT_CONFIG.items()
         }
         with open(ini_path, "w", encoding="utf-8") as f:
             config.write(f)
@@ -81,12 +81,12 @@ class AppIniUtil:
         """
         获取应用程序配置项的值。
         """
-        if key in FsConstants.DEFAULT_CONFIG:
+        if key in AppConstants.DEFAULT_CONFIG:
             return AppIniUtil.get_config_param(
-                FsConstants.SETTINGS_SECTION,
+                AppConstants.SETTINGS_SECTION,
                 key,
-                fallback=FsConstants.DEFAULT_CONFIG[key],
-                as_type=FsConstants.CONFIG_TYPES[key]
+                fallback=AppConstants.DEFAULT_CONFIG[key],
+                as_type=AppConstants.CONFIG_TYPES[key]
             )
         else:
             logger.warning(f"未注册的配置项: {key}")
@@ -97,10 +97,10 @@ class AppIniUtil:
         """
         设置应用程序配置项的值。
         """
-        if key in FsConstants.DEFAULT_CONFIG:
-            if FsConstants.CONFIG_TYPES[key] == bool:
+        if key in AppConstants.DEFAULT_CONFIG:
+            if AppConstants.CONFIG_TYPES[key] == bool:
                 value = "true" if value else "false"
-            AppIniUtil.set_config_param(FsConstants.SETTINGS_SECTION, key, str(value))
+            AppIniUtil.set_config_param(AppConstants.SETTINGS_SECTION, key, str(value))
         else:
             logger.warning(f"未注册的配置项: {key}")
 

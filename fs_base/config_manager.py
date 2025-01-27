@@ -4,7 +4,7 @@ from loguru import logger
 
 from fs_base.app_ini_util import AppIniUtil
 from fs_base.common_util import CommonUtil
-from fs_base.const.fs_constants import FsConstants
+from fs_base.const.app_constants import AppConstants
 
 
 def singleton(cls):
@@ -41,7 +41,7 @@ class ConfigManager(QObject):
         加载配置文件，返回字典形式的配置
         """
         config = {}
-        for key in FsConstants.DEFAULT_CONFIG.keys():
+        for key in AppConstants.DEFAULT_CONFIG.keys():
             config[key] = AppIniUtil.get_ini_app_param(key)
         return config
 
@@ -49,7 +49,7 @@ class ConfigManager(QObject):
         """
         保存配置，并发出配置更新信号
         """
-        if key in FsConstants.DEFAULT_CONFIG:
+        if key in AppConstants.DEFAULT_CONFIG:
             logger.info(f"保存配置：{key} = {value}")
             AppIniUtil.set_ini_app_param(key, value)
             self.config_updated.emit(key, value)
@@ -60,7 +60,7 @@ class ConfigManager(QObject):
         """
         根据键获取配置
         """
-        if key in FsConstants.DEFAULT_CONFIG:
+        if key in AppConstants.DEFAULT_CONFIG:
             return AppIniUtil.get_ini_app_param(key)
         else:
             logger.warning(f"未注册的配置项: {key}")

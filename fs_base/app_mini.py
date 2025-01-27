@@ -8,7 +8,7 @@ from PySide6.QtWidgets import  QWidget, QVBoxLayout, QLabel
 from loguru import logger
 
 from fs_base.config_manager import ConfigManager
-from fs_base.const import FsConstants
+from fs_base.const.app_constants import AppConstants
 
 
 class AppMini(QWidget):
@@ -21,9 +21,9 @@ class AppMini(QWidget):
         self.config_manager = ConfigManager()
         self.config_manager.config_updated.connect(self.on_config_updated)
 
-        self.app_mini_ico = self.config_manager.get_config(FsConstants.APP_MINI_IMAGE_KEY)
-        self.mini_mask_checked = self.config_manager.get_config(FsConstants.APP_MINI_MASK_CHECKED_KEY)
-        self.app_mini_size = self.config_manager.get_config(FsConstants.APP_MINI_SIZE_KEY)
+        self.app_mini_ico = self.config_manager.get_config(AppConstants.APP_MINI_IMAGE_KEY)
+        self.mini_mask_checked = self.config_manager.get_config(AppConstants.APP_MINI_MASK_CHECKED_KEY)
+        self.app_mini_size = self.config_manager.get_config(AppConstants.APP_MINI_SIZE_KEY)
         self.init_ui()
 
 

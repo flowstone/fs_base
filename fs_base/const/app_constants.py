@@ -1,4 +1,4 @@
-class FsConstants:
+class AppConstants:
     """
     ---------------------
     宽度为0 高度为0,则表示窗口【宽高】由组件们决定

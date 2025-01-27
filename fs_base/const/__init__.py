@@ -1,1 +1,1 @@
-from .fs_constants import FsConstants
+from .app_constants import AppConstants

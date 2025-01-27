@@ -5,7 +5,7 @@ from PySide6.QtGui import QFontDatabase
 from loguru import logger
 
 from fs_base.common_util import CommonUtil
-from fs_base.const.fs_constants import FsConstants
+from fs_base.const.app_constants import AppConstants
 
 
 # 初始化文件
@@ -22,8 +22,8 @@ class AppLoad:
             os.makedirs(external_dir)
 
         # 复制app.ini文件
-        source_file = CommonUtil.get_resource_path(FsConstants.APP_INI_FILE)
-        destination_file = os.path.join(CommonUtil.get_external_path(), FsConstants.EXTERNAL_APP_INI_FILE)
+        source_file = CommonUtil.get_resource_path(AppConstants.APP_INI_FILE)
+        destination_file = os.path.join(CommonUtil.get_external_path(), AppConstants.EXTERNAL_APP_INI_FILE)
         # 如果目标文件不存在，则复制
         if not os.path.exists(destination_file):
             logger.info(f"复制app.ini文件:{source_file} -> {destination_file}")
@@ -32,7 +32,7 @@ class AppLoad:
     @staticmethod
     def load_external_stylesheet(app):
         # 加载样式表文件
-        stylesheet_path = CommonUtil.get_resource_path(FsConstants.BASE_QSS_PATH)
+        stylesheet_path = CommonUtil.get_resource_path(AppConstants.BASE_QSS_PATH)
         if os.path.exists(stylesheet_path):
             with open(stylesheet_path, "r", encoding='utf-8') as file:
                 stylesheet = file.read()
@@ -42,7 +42,7 @@ class AppLoad:
     # 加载外部字体
     @staticmethod
     def load_external_font():
-        font_path = CommonUtil.get_resource_path(FsConstants.FONT_FILE_PATH)
+        font_path = CommonUtil.get_resource_path(AppConstants.FONT_FILE_PATH)
         font_id = QFontDatabase.addApplicationFont(font_path)
         if font_id == -1:
             logger.warning("字体加载失败")
