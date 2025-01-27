@@ -30,7 +30,7 @@ package-data = { "fs_base" = ["resources/**/*"] }  # 包含所有资源文件
 # 情景A：使用 src-layout（推荐）
 [tool.setuptools.packages.find]
 where = ["src"]          # 包位于 src 目录下
-include = ["fs_base"]
+include = ["fs_base*"]   # 包含所有子包（递归）
 
 # 情景B：包直接位于项目根目录
 # [tool.setuptools.packages.find]
