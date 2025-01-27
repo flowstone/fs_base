@@ -33,20 +33,38 @@ class FsConstants:
 
 
     ################### INI设置 #####################
-    SETTINGS_KEY = "Settings"
-    APP_MINI_MASK_CHECKED_KEY = "mini_mask_checked"
-    APP_MINI_BREATHING_LIGHT_CHECKED_KEY = "mini_breathing_light_checked"
-    APP_MINI_CHECKED_KEY = "mini_checked"
-    APP_MINI_SIZE_KEY = "mini_size"
-    APP_MINI_IMAGE_KEY = "mini_image"
-    APP_TRAY_MENU_CHECKED_KEY = "tray_menu_checked"
-    APP_TRAY_MENU_IMAGE_KEY = "tray_menu_image"
 
-    INI_APP_MINI_MASK_CHECKED_KEY = "mini.mask.checked"
-    INI_APP_MINI_BREATHING_LIGHT_CHECKED_KEY = "mini.breathing.light.checked"
-    INI_APP_MINI_CHECKED_KEY = "mini.checked"
-    INI_APP_MINI_SIZE_KEY = "mini.size"
-    INI_APP_MINI_IMAGE_KEY = "mini.image"
-    INI_APP_TRAY_MENU_CHECKED_KEY = "tray.menu.checked"
-    INI_APP_TRAY_MENU_IMAGE_KEY = "tray.menu.image"
+    # INI 文件配置节名称
+    SETTINGS_SECTION = "Settings"
+
+    # 配置键名
+    APP_MINI_MASK_CHECKED_KEY = "mini.mask_checked"
+    APP_MINI_BREATHING_LIGHT_CHECKED_KEY = "mini.breathing_light_checked"
+    APP_MINI_CHECKED_KEY = "mini.checked"
+    APP_MINI_SIZE_KEY = "mini.size"
+    APP_MINI_IMAGE_KEY = "mini.image"
+    APP_TRAY_MENU_CHECKED_KEY = "tray_menu.checked"
+    APP_TRAY_MENU_IMAGE_KEY = "tray_menu.image"
+
+    # 默认值
+    DEFAULT_CONFIG = {
+        APP_MINI_MASK_CHECKED_KEY: True,
+        APP_MINI_BREATHING_LIGHT_CHECKED_KEY: True,
+        APP_MINI_CHECKED_KEY: False,
+        APP_MINI_SIZE_KEY: 80,
+        APP_MINI_IMAGE_KEY: "",
+        APP_TRAY_MENU_CHECKED_KEY: False,
+        APP_TRAY_MENU_IMAGE_KEY: "",
+    }
+
+    # 类型映射
+    CONFIG_TYPES = {
+        APP_MINI_MASK_CHECKED_KEY: bool,
+        APP_MINI_BREATHING_LIGHT_CHECKED_KEY: bool,
+        APP_MINI_CHECKED_KEY: bool,
+        APP_MINI_SIZE_KEY: int,
+        APP_MINI_IMAGE_KEY: str,
+        APP_TRAY_MENU_CHECKED_KEY: bool,
+        APP_TRAY_MENU_IMAGE_KEY: str,
+    }
     ################### INI设置 #####################

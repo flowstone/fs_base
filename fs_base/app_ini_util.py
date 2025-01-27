@@ -1,17 +1,13 @@
 import configparser
 import os
 from loguru import logger
-
 from fs_base.common_util import CommonUtil
-from fs_base.const import FsConstants
+from fs_base.const.fs_constants import FsConstants
 
 
 class AppIniUtil:
-
-    DEBUG_MODE = True  # 控制日志输出开关
-
-    def __init__(self):
-        pass
+    # 调试模式
+    DEBUG_MODE = True
 
     @staticmethod
     def get_ini_config():
@@ -41,22 +37,15 @@ class AppIniUtil:
         """
         初始化默认配置文件。
         """
-        default_config = f"""\
-; 应用默认配置文件
-[{FsConstants.SETTINGS_KEY}]
-{FsConstants.INI_APP_MINI_MASK_CHECKED_KEY} = false
-{FsConstants.INI_APP_MINI_BREATHING_LIGHT_CHECKED_KEY} = false
-{FsConstants.INI_APP_MINI_CHECKED_KEY} = false
-{FsConstants.INI_APP_MINI_SIZE_KEY} = 80
-{FsConstants.INI_APP_MINI_IMAGE_KEY} = 
-{FsConstants.INI_APP_TRAY_MENU_CHECKED_KEY} = false
-{FsConstants.INI_APP_TRAY_MENU_IMAGE_KEY} = 
-"""
+        config = configparser.ConfigParser()
+        config[FsConstants.SETTINGS_SECTION] = {
+            key: str(value) for key, value in FsConstants.DEFAULT_CONFIG.items()
+        }
         with open(ini_path, "w", encoding="utf-8") as f:
-            f.write(default_config)
+            config.write(f)
 
     @staticmethod
-    def get_config_param(section: str, key: str, fallback=None, as_type:any=str):
+    def get_config_param(section: str, key: str, fallback=None, as_type: any = str):
         """
         通用方法，从 INI 文件中读取指定的配置项。
         """
@@ -89,24 +78,31 @@ class AppIniUtil:
 
     @staticmethod
     def get_ini_app_param(key: str):
-        if FsConstants.INI_APP_MINI_MASK_CHECKED_KEY == key or FsConstants.INI_APP_MINI_BREATHING_LIGHT_CHECKED_KEY == key:
-            return AppIniUtil.get_config_param(FsConstants.SETTINGS_KEY, key, fallback=True, as_type=bool)
-        elif FsConstants.INI_APP_MINI_CHECKED_KEY == key or FsConstants.INI_APP_TRAY_MENU_CHECKED_KEY == key:
-            return AppIniUtil.get_config_param(FsConstants.SETTINGS_KEY, key, fallback=False, as_type=bool)
-        elif FsConstants.INI_APP_MINI_SIZE_KEY == key:
-            return AppIniUtil.get_config_param(FsConstants.SETTINGS_KEY, key, as_type=int)
+        """
+        获取应用程序配置项的值。
+        """
+        if key in FsConstants.DEFAULT_CONFIG:
+            return AppIniUtil.get_config_param(
+                FsConstants.SETTINGS_SECTION,
+                key,
+                fallback=FsConstants.DEFAULT_CONFIG[key],
+                as_type=FsConstants.CONFIG_TYPES[key]
+            )
         else:
-            return AppIniUtil.get_config_param(FsConstants.SETTINGS_KEY, key)
+            logger.warning(f"未注册的配置项: {key}")
+            return None
 
     @staticmethod
     def set_ini_app_param(key: str, value: any):
-        if type(value) == bool:
-            AppIniUtil.set_config_param(FsConstants.SETTINGS_KEY, key, "true" if value else "false")
-        elif type(value) == int:
-            AppIniUtil.set_config_param(FsConstants.SETTINGS_KEY, key, str(value))
+        """
+        设置应用程序配置项的值。
+        """
+        if key in FsConstants.DEFAULT_CONFIG:
+            if FsConstants.CONFIG_TYPES[key] == bool:
+                value = "true" if value else "false"
+            AppIniUtil.set_config_param(FsConstants.SETTINGS_SECTION, key, str(value))
         else:
-            AppIniUtil.set_config_param(FsConstants.SETTINGS_KEY, key, value)
-
+            logger.warning(f"未注册的配置项: {key}")
 
     @staticmethod
     def update_ini_line(ini_path, section, key, value):
