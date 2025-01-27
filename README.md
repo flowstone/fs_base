@@ -3,12 +3,17 @@
 ![Python](https://img.shields.io/badge/python-3.9%2B-blue)
 ![PySide6](https://img.shields.io/badge/PySide-6.8.1%2B-orange)
 
-一个基于工具库，基于 **PySide6** 构建，代码由ChatGPT生成，本人只是搬运工。
+一个基础库，基于 **PySide6** 构建，代码由ChatGPT生成，本人只是搬运工。
 
-基础代码基于【[FS-Tool-Pro](https://github.com/flowstone/FS-Tool-Pro)】: https://github.com/flowstone/FS-Tool-Pro
+### <span style="color: pink;">下列项目使用</span>
+
+* 【[FS-Tool-Pro](https://github.com/flowstone/FS-Tool-Pro)】: 个人工具箱
+* 【[FSGithubPNG](https://github.com/flowstone/FS-Tool-Pro)】: Github图床
+* 【[FSBestPNG](https://github.com/flowstone/FS-Tool-Pro)】: 图片处理工具(BUG)
+* 【[FSDiary](https://github.com/flowstone/FSDiary)】: 日记
 
 ``` python
-# 在项目根目录执行
+# 本地测试，在项目根目录执行
 pip uninstall fs_base -y
 pip install -e .
 ```
