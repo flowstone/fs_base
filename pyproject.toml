@@ -7,7 +7,7 @@ name = "fs_base"
 version = "0.1.0"
 description = "一个基础库，基于 PySide6 构建，代码由ChatGPT、DeepSeek提供参考，本人只是搬运工。"
 authors = [
-    { name = "Simon Xue", email = "xueyao.me@gmail.com" }
+    { name = "flowstone", email = "xueyao.me@gmail.com" }
 ]
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -23,8 +23,16 @@ classifiers = [
 urls = { Homepage = "https://github.com/flowstone/fs_base" }
 
 [tool.setuptools]
-# 包发现配置
-packages = { find = { where = ".", include = ["fs_base", "fs_base.*"] } }
-
 # 包数据配置
-package-data = { "fs_base" = ["resources/*.qss", "fonts/*.ttf"] }
+package-data = { "fs_base" = ["resources/**/*"] }  # 包含所有资源文件
+
+# 包发现配置（根据项目结构选择一种）
+# 情景A：使用 src-layout（推荐）
+[tool.setuptools.packages.find]
+where = ["src"]          # 包位于 src 目录下
+include = ["fs_base"]
+
+# 情景B：包直接位于项目根目录
+# [tool.setuptools.packages.find]
+# where = ["."]
+# include = ["fs_base*"]

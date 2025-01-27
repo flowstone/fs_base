@@ -4,6 +4,7 @@ import datetime
 import socket
 
 from fs_base.const.app_constants import AppConstants
+from importlib.resources import files  # Python 3.9+
 
 
 class BaseUtil:

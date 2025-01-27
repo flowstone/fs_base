@@ -7,7 +7,6 @@ from PySide6.QtGui import QMouseEvent, QPixmap, QGuiApplication
 from PySide6.QtWidgets import  QWidget, QVBoxLayout, QLabel
 from loguru import logger
 
-from fs_base.base_util import BaseUtil
 from fs_base.config_manager import ConfigManager
 from fs_base.const.app_constants import AppConstants
 
