@@ -6,7 +6,7 @@ import socket
 from fs_base.const.app_constants import AppConstants
 
 
-class CommonUtil:
+class BaseUtil:
 
     @staticmethod
     def get_resource_path(relative_path):
@@ -39,11 +39,11 @@ class CommonUtil:
 
     @staticmethod
     def get_ico_full_path():
-        return CommonUtil.get_resource_path(AppConstants.APP_ICON_FULL_PATH)
+        return BaseUtil.get_resource_path(AppConstants.APP_ICON_FULL_PATH)
 
     @staticmethod
     def get_mini_ico_full_path():
-        return CommonUtil.get_resource_path(AppConstants.APP_MINI_ICON_FULL_PATH)
+        return BaseUtil.get_resource_path(AppConstants.APP_MINI_ICON_FULL_PATH)
 
     @staticmethod
     def get_mac_user_path():
@@ -103,11 +103,11 @@ class CommonUtil:
 
     @staticmethod
     def get_app_ini_path():
-        app_ini_path = os.path.join(CommonUtil.get_external_path(), AppConstants.EXTERNAL_APP_INI_FILE)
+        app_ini_path = os.path.join(BaseUtil.get_external_path(), AppConstants.EXTERNAL_APP_INI_FILE)
         if os.path.exists(app_ini_path):
             return app_ini_path
-        return CommonUtil.get_resource_path(AppConstants.APP_INI_FILE)
+        return BaseUtil.get_resource_path(AppConstants.APP_INI_FILE)
 
     @staticmethod
     def get_external_path() -> str:
-        return AppConstants.SAVE_FILE_PATH_WIN if CommonUtil.check_win_os() else CommonUtil.get_mac_user_path()
+        return AppConstants.SAVE_FILE_PATH_WIN if BaseUtil.check_win_os() else BaseUtil.get_mac_user_path()

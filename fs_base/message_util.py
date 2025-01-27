@@ -4,7 +4,7 @@ from PySide6.QtWidgets import QMessageBox, QDialog, QVBoxLayout, QLabel, QPushBu
 from PySide6.QtCore import Qt
 from loguru import logger
 
-from fs_base import CommonUtil
+from fs_base.base_util import BaseUtil
 
 
 class MessageUtil:
@@ -45,7 +45,7 @@ class MessageUtil:
 
         msg_box.setWindowTitle(title)
         msg_box.setText(message)
-        msg_box.setWindowIcon(QIcon(CommonUtil.get_ico_full_path()))
+        msg_box.setWindowIcon(QIcon(BaseUtil.get_ico_full_path()))
         # 添加详细信息按钮
         if details:
             msg_box.setDetailedText(details)

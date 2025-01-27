@@ -1,7 +1,8 @@
 import configparser
 import os
 from loguru import logger
-from fs_base.common_util import CommonUtil
+
+from fs_base.base_util import BaseUtil
 from fs_base.const.app_constants import AppConstants
 
 
@@ -14,7 +15,7 @@ class AppIniUtil:
         """
         获取 INI 文件的配置对象，如果文件不存在或为空则初始化默认配置。
         """
-        ini_path = CommonUtil.get_app_ini_path()
+        ini_path = BaseUtil.get_app_ini_path()
         config = configparser.ConfigParser(allow_no_value=True)
 
         if not os.path.exists(ini_path):

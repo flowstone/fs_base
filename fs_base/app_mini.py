@@ -44,7 +44,7 @@ class AppMini(QWidget):
 
         # 启动呼吸灯效果（透明度周期性变化）
         self.breathing_light_window()
-        if not self.config_manager.get_config(ConfigManager.APP_MINI_BREATHING_LIGHT_CHECKED_KEY):
+        if not self.config_manager.get_config(AppConstants.APP_MINI_BREATHING_LIGHT_CHECKED_KEY):
             self.timer_light.stop()
         # 悬浮球的缓慢漂浮（上下浮动）
         self.add_float_animation()
@@ -232,7 +232,7 @@ class AppMini(QWidget):
 
 
     def on_config_updated(self, key, value):
-        if key == ConfigManager.APP_MINI_MASK_CHECKED_KEY:
+        if key == AppConstants.APP_MINI_MASK_CHECKED_KEY:
             if value:
                 self.mask.show()
                 self.mask_animation.start()
@@ -241,9 +241,9 @@ class AppMini(QWidget):
                 self.mask.hide()
                 self.mask_animation.stop()
                 self.breathing_animation.stop()
-        elif key == ConfigManager.APP_MINI_CHECKED_KEY:
-            self.app_mini_ico = self.config_manager.get_config(ConfigManager.APP_MINI_IMAGE_KEY)
-            self.app_mini_size = self.config_manager.get_config(ConfigManager.APP_MINI_SIZE_KEY)
+        elif key == AppConstants.APP_MINI_CHECKED_KEY:
+            self.app_mini_ico = self.config_manager.get_config(AppConstants.APP_MINI_IMAGE_KEY)
+            self.app_mini_size = self.config_manager.get_config(AppConstants.APP_MINI_SIZE_KEY)
             # 设置悬浮球背景
             pixmap = QPixmap(self.app_mini_ico)
             pixmap = pixmap.scaled(self.app_mini_size,self.app_mini_size, Qt.AspectRatioMode.KeepAspectRatio,
@@ -254,7 +254,7 @@ class AppMini(QWidget):
             self.setGeometry(0, 0, self.app_mini_size, self.app_mini_size)  # 设置悬浮球大小
             self.move_to_top_right()
 
-        elif key == ConfigManager.APP_MINI_BREATHING_LIGHT_CHECKED_KEY:
+        elif key == AppConstants.APP_MINI_BREATHING_LIGHT_CHECKED_KEY:
             if value:
                 self.timer_light.start(50)
             else:
