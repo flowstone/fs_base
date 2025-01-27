@@ -20,7 +20,7 @@ class AppMini(QWidget):
         self.config_manager = ConfigManager()
         self.config_manager.config_updated.connect(self.on_config_updated)
 
-        self.app_mini_ico = self.config_manager.get_config(ConfigManager.APP_MINI_IMAGE_KEY)
+        self.app_mini_ico = self.config_manager.get_config(ConfigManager.BASE_KEY_MAPPING)
         self.mini_mask_checked = self.config_manager.get_config(ConfigManager.APP_MINI_MASK_CHECKED_KEY)
         self.app_mini_size = self.config_manager.get_config(ConfigManager.APP_MINI_SIZE_KEY)
         self.init_ui()

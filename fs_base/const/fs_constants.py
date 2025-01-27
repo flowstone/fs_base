@@ -30,3 +30,23 @@ class FsConstants:
 
     APP_INI_FILE = "app.ini"
     FONT_FILE_PATH = "resources/fonts/AlimamaFangYuanTiVF-Thin.ttf"
+
+
+    ################### INI设置 #####################
+    SETTINGS_KEY = "Settings"
+    APP_MINI_MASK_CHECKED_KEY = "mini_mask_checked"
+    APP_MINI_BREATHING_LIGHT_CHECKED_KEY = "mini_breathing_light_checked"
+    APP_MINI_CHECKED_KEY = "mini_checked"
+    APP_MINI_SIZE_KEY = "mini_size"
+    APP_MINI_IMAGE_KEY = "mini_image"
+    APP_TRAY_MENU_CHECKED_KEY = "tray_menu_checked"
+    APP_TRAY_MENU_IMAGE_KEY = "tray_menu_image"
+
+    INI_APP_MINI_MASK_CHECKED_KEY = "mini.mask.checked"
+    INI_APP_MINI_BREATHING_LIGHT_CHECKED_KEY = "mini.breathing.light.checked"
+    INI_APP_MINI_CHECKED_KEY = "mini.checked"
+    INI_APP_MINI_SIZE_KEY = "mini.size"
+    INI_APP_MINI_IMAGE_KEY = "mini.image"
+    INI_APP_TRAY_MENU_CHECKED_KEY = "tray.menu.checked"
+    INI_APP_TRAY_MENU_IMAGE_KEY = "tray.menu.image"
+    ################### INI设置 #####################

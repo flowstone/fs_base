@@ -9,7 +9,7 @@ from fs_base.const.fs_constants import FsConstants
 
 
 # 初始化文件
-class AppInitUtil:
+class AppLoad:
 
     # 初始化文件
     @staticmethod

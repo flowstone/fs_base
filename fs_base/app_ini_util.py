@@ -3,22 +3,12 @@ import os
 from loguru import logger
 
 from fs_base.common_util import CommonUtil
+from fs_base.const import FsConstants
 
 
-class IniUtil:
-    ##############Settings START################
-    SETTINGS_KEY = "Settings"
-    APP_MINI_MASK_CHECKED_KEY = "mini.mask_checked"
-    APP_MINI_BREATHING_LIGHT_CHECKED_KEY = "mini.breathing_light_checked"
-    APP_MINI_CHECKED_KEY = "mini.checked"
-    APP_MINI_SIZE_KEY = "mini.size"
-    APP_MINI_IMAGE_KEY = "mini.image"
-
-    APP_TRAY_MENU_CHECKED_KEY = "tray_menu.checked"
-    APP_TRAY_MENU_IMAGE_KEY = "tray_menu.image"
+class AppIniUtil:
 
     DEBUG_MODE = True  # 控制日志输出开关
-    ##############Settings END#################
 
     def __init__(self):
         pass
@@ -33,16 +23,16 @@ class IniUtil:
 
         if not os.path.exists(ini_path):
             logger.warning(f"INI 文件不存在，创建默认配置文件：{ini_path}")
-            IniUtil.initialize_default_config(ini_path)
+            AppIniUtil.initialize_default_config(ini_path)
         else:
             try:
                 config.read(ini_path, encoding="utf-8")
                 if not config.sections():
                     logger.warning(f"INI 文件为空或无效，初始化默认配置：{ini_path}")
-                    IniUtil.initialize_default_config(ini_path)
+                    AppIniUtil.initialize_default_config(ini_path)
             except Exception as e:
                 logger.error(f"加载 INI 文件失败：{e}")
-                IniUtil.initialize_default_config(ini_path)
+                AppIniUtil.initialize_default_config(ini_path)
 
         return config, ini_path
 
@@ -53,14 +43,14 @@ class IniUtil:
         """
         default_config = f"""\
 ; 应用默认配置文件
-[{IniUtil.SETTINGS_KEY}]
-{IniUtil.APP_MINI_MASK_CHECKED_KEY} = true
-{IniUtil.APP_MINI_BREATHING_LIGHT_CHECKED_KEY} = true
-{IniUtil.APP_MINI_CHECKED_KEY} = false
-{IniUtil.APP_MINI_SIZE_KEY} = 80
-{IniUtil.APP_MINI_IMAGE_KEY} = 
-{IniUtil.APP_TRAY_MENU_CHECKED_KEY} = false
-{IniUtil.APP_TRAY_MENU_IMAGE_KEY} = 
+[{FsConstants.SETTINGS_KEY}]
+{FsConstants.INI_APP_MINI_MASK_CHECKED_KEY} = false
+{FsConstants.INI_APP_MINI_BREATHING_LIGHT_CHECKED_KEY} = false
+{FsConstants.INI_APP_MINI_CHECKED_KEY} = false
+{FsConstants.INI_APP_MINI_SIZE_KEY} = 80
+{FsConstants.INI_APP_MINI_IMAGE_KEY} = 
+{FsConstants.INI_APP_TRAY_MENU_CHECKED_KEY} = false
+{FsConstants.INI_APP_TRAY_MENU_IMAGE_KEY} = 
 """
         with open(ini_path, "w", encoding="utf-8") as f:
             f.write(default_config)
@@ -70,7 +60,7 @@ class IniUtil:
         """
         通用方法，从 INI 文件中读取指定的配置项。
         """
-        config, _ = IniUtil.get_ini_config()
+        config, _ = AppIniUtil.get_ini_config()
         try:
             if as_type == bool:
                 return config.getboolean(section, key, fallback=fallback)
@@ -83,7 +73,7 @@ class IniUtil:
             else:
                 raise ValueError(f"不支持的类型：{as_type}")
         except Exception as e:
-            if IniUtil.DEBUG_MODE:
+            if AppIniUtil.DEBUG_MODE:
                 logger.error(f"读取配置失败：[Section: {section}] [Key: {key}] - 错误：{e}")
             return fallback
 
@@ -92,30 +82,30 @@ class IniUtil:
         """
         通用方法，更新 INI 文件中的指定配置项。
         """
-        config, ini_path = IniUtil.get_ini_config()
-        IniUtil.update_ini_line(ini_path, section, key, value)
-        if IniUtil.DEBUG_MODE:
+        config, ini_path = AppIniUtil.get_ini_config()
+        AppIniUtil.update_ini_line(ini_path, section, key, value)
+        if AppIniUtil.DEBUG_MODE:
             logger.info(f"更新配置：[Section: {section}] [Key: {key}] = {value}")
 
     @staticmethod
     def get_ini_app_param(key: str):
-        if IniUtil.APP_MINI_MASK_CHECKED_KEY == key or IniUtil.APP_MINI_BREATHING_LIGHT_CHECKED_KEY == key:
-            return IniUtil.get_config_param(IniUtil.SETTINGS_KEY, key, fallback=True, as_type=bool)
-        elif IniUtil.APP_MINI_CHECKED_KEY == key or IniUtil.APP_TRAY_MENU_CHECKED_KEY == key:
-            return IniUtil.get_config_param(IniUtil.SETTINGS_KEY, key, fallback=False, as_type=bool)
-        elif IniUtil.APP_MINI_SIZE_KEY == key:
-            return IniUtil.get_config_param(IniUtil.SETTINGS_KEY, key, as_type=int)
+        if FsConstants.INI_APP_MINI_MASK_CHECKED_KEY == key or FsConstants.INI_APP_MINI_BREATHING_LIGHT_CHECKED_KEY == key:
+            return AppIniUtil.get_config_param(FsConstants.SETTINGS_KEY, key, fallback=True, as_type=bool)
+        elif FsConstants.INI_APP_MINI_CHECKED_KEY == key or FsConstants.INI_APP_TRAY_MENU_CHECKED_KEY == key:
+            return AppIniUtil.get_config_param(FsConstants.SETTINGS_KEY, key, fallback=False, as_type=bool)
+        elif FsConstants.INI_APP_MINI_SIZE_KEY == key:
+            return AppIniUtil.get_config_param(FsConstants.SETTINGS_KEY, key, as_type=int)
         else:
-            return IniUtil.get_config_param(IniUtil.SETTINGS_KEY, key)
+            return AppIniUtil.get_config_param(FsConstants.SETTINGS_KEY, key)
 
     @staticmethod
     def set_ini_app_param(key: str, value: any):
         if type(value) == bool:
-            IniUtil.set_config_param(IniUtil.SETTINGS_KEY, key, "true" if value else "false")
+            AppIniUtil.set_config_param(FsConstants.SETTINGS_KEY, key, "true" if value else "false")
         elif type(value) == int:
-            IniUtil.set_config_param(IniUtil.SETTINGS_KEY, key, str(value))
+            AppIniUtil.set_config_param(FsConstants.SETTINGS_KEY, key, str(value))
         else:
-            IniUtil.set_config_param(IniUtil.SETTINGS_KEY, key, value)
+            AppIniUtil.set_config_param(FsConstants.SETTINGS_KEY, key, value)
 
 
     @staticmethod
@@ -166,7 +156,7 @@ class IniUtil:
         """
         重置配置为默认值。
         """
-        _, ini_path = IniUtil.get_ini_config()
-        IniUtil.initialize_default_config(ini_path)
-        if IniUtil.DEBUG_MODE:
+        _, ini_path = AppIniUtil.get_ini_config()
+        AppIniUtil.initialize_default_config(ini_path)
+        if AppIniUtil.DEBUG_MODE:
             logger.info("配置已重置为默认值。")
