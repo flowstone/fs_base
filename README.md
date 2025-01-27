@@ -3,9 +3,9 @@
 ![Python](https://img.shields.io/badge/python-3.9%2B-blue)
 ![PySide6](https://img.shields.io/badge/PySide-6.8.1%2B-orange)
 
-一个基础库，基于 **PySide6** 构建，代码由ChatGPT生成，本人只是搬运工。
+一个基础库，基于 **PySide6** 构建，代码由ChatGPT、、DeepSeek提供参考，本人只是搬运工。
 
-### <span style="color: pink;">下列项目使用</span>
+> <span style="color: pink;">下列项目使用</span>
 
 * 【[FS-Tool-Pro](https://github.com/flowstone/FS-Tool-Pro)】: 个人工具箱
 * 【[FSGithubPNG](https://github.com/flowstone/FS-Tool-Pro)】: Github图床
