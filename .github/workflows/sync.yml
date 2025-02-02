@@ -1,4 +1,4 @@
-name: Sync All Branches and Tags to Gitee/GitLab
+name: Sync All Branches and Tags to Gitee/GitLab/Bitbucket
 
 on:
   push:
@@ -19,6 +19,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.GITEE_PRIVATE_KEY }}" > ~/.ssh/id_rsa_gitee
           echo "${{ secrets.GITLAB_PRIVATE_KEY }}" > ~/.ssh/id_rsa_gitlab
+          echo "${{ secrets.BITBUCKET_PRIVATE_KEY }}" > ~/.ssh/id_rsa_bitbucket
           chmod 600 ~/.ssh/id_rsa_*
           # 配置多平台SSH密钥
           cat <<EOF > ~/.ssh/config
@@ -29,6 +30,10 @@ jobs:
           Host gitlab.com
             HostName gitlab.com
             IdentityFile ~/.ssh/id_rsa_gitlab
+            User git
+          Host bitbucket.org
+            HostName bitbucket.org
+            IdentityFile ~/.ssh/id_rsa_bitbucket
             User git
           EOF
           ssh-keyscan gitee.com gitlab.com >> ~/.ssh/known_hosts
@@ -42,13 +47,14 @@ jobs:
         run: |
           git remote add gitee git@gitee.com:flowstone/fs_base.git
           git remote add gitlab git@gitlab.com:flowstone/fs_base.git
+          git remote add bitbucket git@bitbucket.org:flowstone/fs_base.git
 
       - name: Fetch All Branches and Tags
         run: |
           git fetch --prune origin
           git fetch --tags origin
 
-      - name: Push to Gitee and GitLab (All Branches and Tags)
+      - name: Push to Gitee/GitLab/Bitbucket (All Branches and Tags)
         run: |
           # 推送所有分支和标签到 Gitee
           git push --all gitee --force
@@ -56,3 +62,6 @@ jobs:
           # 推送所有分支和标签到 GitLab
           git push --all gitlab --force
           git push --tags gitlab --force
+          # 推送所有分支和标签到 Bitbucket
+          git push --all bitbucket --force
+          git push --tags bitbucket --force
