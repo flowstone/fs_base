@@ -1,0 +1,42 @@
+name: Publish Python Package to PyPI
+
+on:
+  release:
+    types: [published]  # 当创建新的 GitHub Release 时触发
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'  # 指定你的 Python 版本，例如 3.10
+
+    - name: Install build tools
+      run: |
+        python -m pip install --upgrade pip
+        pip install build
+        pip install twine
+
+    - name: Build package
+      run: |
+        python -m build  # 构建 wheel 和 sdist 分发包
+
+    - name: Publish to TestPyPI
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
+      run: |
+        twine upload --repository testpypi dist/*
+
+    - name: Publish to PyPI
+      env:
+        TWINE_USERNAME: __token__  # PyPI 要求使用 __token__ 作为用户名
+        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}  # 从 Secrets 读取 Token
+      run: |
+        twine upload dist/*
