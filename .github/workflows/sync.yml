@@ -45,7 +45,7 @@ jobs:
 
       - name: Fetch All Branches and Tags
         run: |
-          git fetch --prune --unshallow origin
+          git fetch --prune origin
           git fetch --tags origin
 
       - name: Push to Gitee and GitLab (All Branches and Tags)
