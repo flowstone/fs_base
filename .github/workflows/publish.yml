@@ -27,7 +27,12 @@ jobs:
       run: |
         python -m build  # 构建 wheel 和 sdist 分发包
 
-    
+    - name: Publish to TestPyPI
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
+      run: |
+        twine upload --repository testpypi dist/*
 
     - name: Publish to PyPI
       env:
