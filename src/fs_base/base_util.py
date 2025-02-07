@@ -12,18 +12,25 @@ class BaseUtil:
     @staticmethod
     def get_resource_path(relative_path):
         """
-        获取资源路径，处理打包后的路径问题（兼容Nuitka和PyInstaller）。
+        获取资源（如图片等）的实际路径，处理打包后资源路径的问题
         """
-        # 处理Nuitka单文件模式
-        if "NUITKA_ONEFILE_PARENT" in os.environ:
-            application_path = os.environ["NUITKA_ONEFILE_PARENT"]
-        # 处理PyInstaller打包的情况
-        elif getattr(sys, 'frozen', False):
-            # PyInstaller的单文件模式使用_MEIPASS，多文件模式使用executable的目录
-            application_path = getattr(sys, '_MEIPASS', os.path.dirname(sys.executable))
-        # 非打包环境
+        # PyInstaller、Nuitka打包单文件 写入的参数
+        if "NUITKA_ONEFILE_PARENT" in os.environ or getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+            # 如果是冻结状态（例如使用 PyInstaller、Nuitka 等打包后的状态）
+            # sys.executable 当前程序运行的目录，仅支持Win系统
+            # sys._MEIPASS 是一个存储了程序资源的临时目录
+            # 当程序被打包时，资源会被解压到该目录中
+            # 此路径和打包的应用有关系，目前pyinstaller打macOS端，Nuitka打Win端
+            if BaseUtil.check_win_os():
+                application_path = os.path.dirname(sys.executable)
+            else:
+                application_path = sys._MEIPASS
+            # logger.info("[冻结状态]打包后的资源路径:{}".format(application_path))
         else:
+            # 如果不是冻结状态，使用当前脚本所在的目录
+            #application_path = os.path.dirname(os.path.abspath(__file__))
             application_path = os.path.dirname(sys.argv[0])
+            # logger.info("[非冻结状态]打包后的资源路径:{}".format(application_path))
         return os.path.join(application_path, relative_path)
 
     @staticmethod

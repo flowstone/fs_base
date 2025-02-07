@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fs_base"
-version = "0.1.0"
+version = "0.1.1"
 description = "一个基础库，基于 PySide6 构建，代码由ChatGPT、DeepSeek提供参考，本人只是搬运工。"
 authors = [
     { name = "flowstone", email = "xueyao.me@gmail.com" }
