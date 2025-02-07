@@ -32,11 +32,11 @@ jobs:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
       run: |
-        twine upload --repository testpypi dist/*
+        twine  upload --verbose --repository testpypi dist/*
 
     - name: Publish to PyPI
       env:
         TWINE_USERNAME: __token__  # PyPI 要求使用 __token__ 作为用户名
         TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}  # 从 Secrets 读取 Token
       run: |
-        twine upload dist/*
+        twine upload --verbose dist/*
