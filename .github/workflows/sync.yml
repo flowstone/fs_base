@@ -1,67 +1,53 @@
-name: Sync All Branches and Tags to Gitee/GitLab/Bitbucket
+name: Sync Multi - Branches to Multiple Platforms via SSH
 
 on:
   push:
-    branches: ['**']  # 所有分支的推送触发
-    tags: ['*']       # 所有标签的推送触发
+    branches:
+      - '*'  # 监听所有分支的推送事件
+  workflow_dispatch:
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout GitHub code
+      - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # 获取完整历史（含所有分支和标签）
+          fetch-depth: 0  # 进行完整克隆
 
-      - name: Configure SSH
+      - name: Configure Git user
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.GITEE_PRIVATE_KEY }}" > ~/.ssh/id_rsa_gitee
-          echo "${{ secrets.GITLAB_PRIVATE_KEY }}" > ~/.ssh/id_rsa_gitlab
-          echo "${{ secrets.BITBUCKET_PRIVATE_KEY }}" > ~/.ssh/id_rsa_bitbucket
-          chmod 600 ~/.ssh/id_rsa_*
-          # 配置多平台SSH密钥
-          cat <<EOF > ~/.ssh/config
-          Host gitee.com
-            HostName gitee.com
-            IdentityFile ~/.ssh/id_rsa_gitee
-            User git
-          Host gitlab.com
-            HostName gitlab.com
-            IdentityFile ~/.ssh/id_rsa_gitlab
-            User git
-          Host bitbucket.org
-            HostName bitbucket.org
-            IdentityFile ~/.ssh/id_rsa_bitbucket
-            User git
-          EOF
-          ssh-keyscan gitee.com gitlab.com >> ~/.ssh/known_hosts
+          git config --global user.name '流体石头'
+          git config --global user.email 'xueyao.me@gmail.com'
 
-      - name: Set Git Identity
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
+      - name: Add SSH key
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Add Remotes
+      - name: Add remote repositories
         run: |
           git remote add gitee git@gitee.com:flowstone/fs_base.git
-          git remote add gitlab git@gitlab.com:flowstone/fs_base.git
-          git remote add bitbucket git@bitbucket.org:flowstone/fs_base.git
+          git remote add gitcode git@gitcode.com:u010868168/fs_base.git
+          git remote add bitbucket  git@bitbucket.org:flowstone/fs_base.git
+          git remote add gitlab  git@gitlab.com:flowstone/fs_base.git
 
-      - name: Fetch All Branches and Tags
+      - name: Add host keys to known_hosts
         run: |
-          git fetch --prune origin
-          git fetch --tags origin
+          ssh-keyscan -H gitee.com >> ~/.ssh/known_hosts
+          ssh-keyscan -H gitcode.com >> ~/.ssh/known_hosts
+          ssh-keyscan -H bitbucket.org >> ~/.ssh/known_hosts
+          ssh-keyscan -H gitlab.com >> ~/.ssh/known_hosts
 
-      - name: Push to Gitee/GitLab/Bitbucket (All Branches and Tags)
+
+      - name: Get current branch
+        id: get_branch
+        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+
+      - name: Push to targets
         run: |
-          # 推送所有分支和标签到 Gitee
-          git push --all gitee --force
-          git push --tags gitee --force
-          # 推送所有分支和标签到 GitLab
-          git push --all gitlab --force
-          git push --tags gitlab --force
-          # 推送所有分支和标签到 Bitbucket
-          git push --all bitbucket --force
-          git push --tags bitbucket --force
+          git push --force gitee ${{ steps.get_branch.outputs.branch }}
+          git push --force gitcode ${{ steps.get_branch.outputs.branch }}
+          git push --force bitbucket ${{ steps.get_branch.outputs.branch }}
+          git push --force gitlab ${{ steps.get_branch.outputs.branch }}
+
